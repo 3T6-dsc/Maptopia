@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Maptopia FR - Heartopia System</title>
@@ -69,11 +70,23 @@
         }
         
         .btn-magic {
-            width: 100%; max-width: 600px; white-space: nowrap; padding: 18px 25px;
+            width: 100%; 
+            max-width: 100%; /* S'assure qu'il ne dépasse jamais le parent */
+            white-space: normal; /* Autorise le texte à passer à la ligne si besoin */
+            padding: 15px 10px; /* Réduit un peu l'espacement sur les côtés */
+            
             background: linear-gradient(45deg, #8b0000, #d4af37, #b8860b, #8b0000);
             background-size: 300% 300%;
             color: white; border: 2px solid #fff; border-radius: 50px;
-            font-size: 18px; font-weight: 900; cursor: pointer;
+            
+            /* Taille de police adaptative et centrée */
+            font-size: clamp(12px, 4vw, 18px); 
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-weight: 900; cursor: pointer;
             text-transform: uppercase; letter-spacing: 2px;
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.6), 0 0 10px rgba(139, 0, 0, 0.5);
             animation: gradientAnim 4s ease infinite, pulseGlow 2s infinite alternate;
@@ -900,7 +913,7 @@
     [[-472,487,"Vêtements","vetement.png"],[-474,503,"Meubles","Meuble.png"],[-496.4,520.6,"Animaux","chien.png"],[-440,467,"Librairie","Librairie.png"]].forEach(s => register('shop', [s[0],s[1]], s[2], s[3]));
     register('animal', [-691, 783], "Panda", "panda.png", {radius: 60}); register('animal', [-184, 291], "Capybara", "capybara.png", {radius: 50});
     register('animal', [-533, 340], "Lapin", "lapin.png", {radius: 40}); register('animal', [-649, 185], "Renard", "renard.png", {radius: 70});
-    register('animal', [-692, 506], "Loutre", "loutre.png", {radius: 40}); register('animal', [-737, 512], "Vison", "vison.png", {radius: 10});
+    register('animal', [-737, 512], "Loutre", "loutre.png", {radius: 40}); register('animal', [-354.3, 277.3], "Vison", "vison.png", {radius: 10});
     register('animal', [-531, 805], "Cerf", "cerf.png", {radius: 60}); register('animal', [-725, 208], "Lama", "lama.png", {radius: 50});
     // LIEUX ET TRADUCTIONS (FRANCAIS)
     [{pos:[-538,492], name:"Place Centrale", type:"label-ville", startOn:true}, {pos:[-692,506], name:"Village Pêcheurs", type:"label-ville", startOn:true}, {pos:[-438,513], name:"Rue des Habitants", type:"label-ville", startOn:true}, {pos:[-649,185], name:"Champ de Fleurs", type:"label-ville", startOn:true}, {pos:[-440,184], name:"Montagne de la Baleine", type:"label-ville", startOn:true}, {pos:[-184,291], name:"Les Ruines", type:"label-ville", startOn:true}, {pos:[-223,501], name:"Montagne Thermale", type:"label-ville", startOn:true}, {pos:[-228,627], name:"Falaise Rocheuse", type:"label-ville", startOn:true}, {pos:[-531,805], name:"Forêt des Chênes", type:"label-ville", startOn:true}, {pos:[-494,429], name:"Rue des Arts", type:"label-ville", startOn:true}, {pos:[-510,558], name:"Rue des Jardins", type:"label-ville", startOn:true}, {pos:[-736,602], name:"Quai Oriental", type:"label-ville", startOn:true}, {pos:[-690,402], name:"Le Quai", type:"label-ville", startOn:true}, {pos:[-780,387], name:"Phare", type:"label-ville", startOn:true}, {pos:[-691,783], name:"Tremplin", type:"label-ville", startOn:true}, {pos:[-338,933], name:"Île de la Forêt", type:"label-ville", startOn:true}, {pos:[-587,406], name:"Banlieue", 
