@@ -1,0 +1,28 @@
+/* Ce code ne s'applique que sur les écrans de moins de 768px (mobiles/tablettes) */
+@media screen and (max-width: 768px) {
+    
+    /* Exemple : On passe tout le corps de page en largeur 100% */
+    body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-size: 16px; /* Texte plus lisible */
+    }
+
+    /* Rend les images fluides pour qu'elles ne dépassent pas de l'écran */
+    img, video {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Exemple : Transforme les menus horizontaux en verticaux */
+    nav, .menu {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Cache les éléments inutiles sur mobile si besoin */
+    .desktop-only {
+        display: none;
+    }
+}
