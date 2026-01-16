@@ -52,6 +52,26 @@
             transform: translateY(-50%);
             pointer-events: none;
         }
+
+        /* Style pour le lien Wiki dans le modal */
+        .wiki-alert {
+            margin-top: 15px;
+            padding: 10px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px dashed #d4af37;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .wiki-link {
+            color: #8b0000;
+            font-weight: bold;
+            text-decoration: underline;
+            display: inline-block;
+            margin-top: 5px;
+        }
+        .wiki-link:hover {
+            color: #ffd700;
+        }
     </style>
 </head>
 <body>
@@ -89,8 +109,13 @@
                     • <b>Navigation :</b> Menu compact sur la gauche.<br>
                     <span class="pc-only">• <b>Marqueurs :</b> Clic droit pour épingler.<br></span>
                     • <b>Collection :</b> Cochez les cases pour suivre votre progression.<br>
-                    • <b>Ressources :</b> Zones de récolte affichées.<br>
                     • <b>Sauvegarde :</b> Données enregistrées automatiquement.
+                </div>
+
+                <div class="wiki-alert">
+                    ℹ️ Une info manque sur la carte ? <br>
+                    Retrouvez tous les détails (niveaux, guides, astuces) sur le : <br>
+                    <a href="https://jayibwi.wixsite.com/wikitopia-guide" target="_blank" class="wiki-link">📖 WIKI OFFICIEL HEARTOPIA</a>
                 </div>
             </div>
             <button class="btn-rex" onclick="closeWelcome()">C'EST PARTI !</button>
