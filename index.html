@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="stylesheet" href="mobile.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Heartopia - Accueil</title>
+    <title>Maptopia - La Carte Interactive Heartopia</title>
     
-    <link rel="manifest" href="manifest.json">
+    <meta property="og:title" content="Maptopia - Carte Interactive Heartopia">
+    <meta property="og:description" content="Découvrez toutes les ressources, PNJ et secrets d'Heartopia sur une carte interactive multilingue.">
+    <meta property="og:image" content="https://maptopia-asdrick.com/maptopia.jpg"> <meta property="og:url" content="https://maptopia-asdrick.com/">
+    <meta property="og:type" content="website">
     <meta name="theme-color" content="#8b0000">
-    
+
+    <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/jpeg" href="maptopia.jpg">
     <link rel="apple-touch-icon" href="maptopia.jpg">
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Maptopia">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Lemon&family=Raleway:wght@300;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="mobile.css">
 
     <style>
         /* --- BASES --- */
@@ -131,7 +134,7 @@
         .welcome-subtitle { font-size: 1.2rem; margin-top: 15px; letter-spacing: 2px; }
         .gold-text { color: #ffd700; font-weight: bold; }
 
-        /* --- BOUTON WIKI (NOUVEAU STYLE) --- */
+        /* --- BOUTON WIKI --- */
         .wiki-container {
             position: relative; z-index: 35; text-align: center; margin-bottom: 15px;
             transition: opacity 0.3s ease;
@@ -178,46 +181,84 @@
 
         .span-2 { grid-column: span 2; }
 
-        /* --- SIGNATURE ASDRICK --- */
+        /* --- FOOTER & CREDITS [PRO] --- */
+        .footer-container {
+            position: absolute; bottom: 15px; width: 100%; text-align: center; z-index: 40;
+            font-family: 'Raleway', sans-serif; pointer-events: auto; /* Activé pour cliquer */
+            transition: opacity 0.3s ease;
+        }
         .footer-signature {
-            position: absolute; bottom: 35px; width: 100%; text-align: center; z-index: 40;
-            font-family: 'Raleway', sans-serif; font-size: 1.1rem; color: rgba(255, 255, 255, 0.6);
-            letter-spacing: 4px; text-transform: uppercase; pointer-events: none; transition: opacity 0.3s ease;
+            font-size: 1.1rem; color: rgba(255, 255, 255, 0.6);
+            letter-spacing: 4px; text-transform: uppercase;
         }
         .footer-signature span { 
             font-family: 'Cinzel Decorative', serif; color: #ffd700; font-weight: bold; font-size: 1.5rem; 
-            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7), 0 0 30px rgba(255, 215, 0, 0.3); 
-            margin-left: 8px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); margin-left: 8px;
         }
+        
+        /* Lien discret Mentions Légales */
+        .legal-link {
+            display: block; margin-top: 5px; font-size: 0.7rem; color: rgba(255,255,255,0.4);
+            text-decoration: none; letter-spacing: 1px; cursor: pointer;
+        }
+        .legal-link:hover { color: #ffd700; text-decoration: underline; }
+
+        /* --- MODAL CREDITS [PRO] --- */
+        #legal-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 50000; justify-content: center; align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: #111; border: 1px solid #ffd700; padding: 30px; border-radius: 10px;
+            max-width: 500px; width: 90%; color: #ccc; text-align: center;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+        .modal-content h2 { font-family: 'Cinzel Decorative', serif; color: #ffd700; margin-top: 0; }
+        .modal-content p { font-size: 0.9rem; line-height: 1.6; }
+        .close-btn {
+            background: transparent; border: 1px solid #666; color: #fff; padding: 8px 20px;
+            margin-top: 20px; cursor: pointer; transition: 0.3s;
+        }
+        .close-btn:hover { border-color: #ffd700; color: #ffd700; }
 
         body.animating #ui-layer, 
         body.animating #main-header, 
-        body.animating .wiki-container, /* Cache le wiki pendant l'animation */
-        body.animating .footer-signature { opacity: 0; pointer-events: none; }
+        body.animating .wiki-container,
+        body.animating .footer-container { opacity: 0; pointer-events: none; }
 
         @media only screen and (max-width: 768px) {
             #ui-layer { grid-template-columns: repeat(2, 1fr); width: 95%; max-height: 50vh; overflow-y: auto; }
             .span-2 { grid-column: auto; }
             .hero-title { font-size: 2.2rem; }
             .welcome-subtitle { font-size: 0.9rem; }
-            .footer-signature { bottom: 20px; font-size: 0.8rem; background: linear-gradient(to top, rgba(0,0,0,0.7), transparent); padding: 15px 0; }
+            .footer-signature { font-size: 0.8rem; }
             .footer-signature span { font-size: 1.2rem; }
-            
-            /* Ajustement mobile pour le bouton Wiki */
             .wiki-btn { font-size: 0.9rem; padding: 10px 25px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="lock-screen">
+    <div id="lock-screen" aria-label="Cliquez pour déverrouiller">
         <div class="lock-icon">🔒</div>
         <div class="unlock-text" id="unlockText">CLIQUEZ POUR DÉVERROUILLER LE MONDE</div>
     </div>
 
+    <div id="legal-modal">
+        <div class="modal-content">
+            <h2>À Propos</h2>
+            <p><strong>Maptopia</strong> est un projet communautaire non-officiel développé avec passion pour les joueurs d'Heartopia.</p>
+            <p>Développé par <strong>Asdrick</strong>.<br>
+            Assets graphiques et sonores © Heartopia / Leurs propriétaires respectifs.</p>
+            <p>Ce site n'est pas affilié, soutenu ou sponsorizado officiellement par le studio de développement du jeu.</p>
+            <button class="close-btn" onclick="document.getElementById('legal-modal').style.display='none'">Fermer</button>
+        </div>
+    </div>
+
     <div id="container">
         <div id="video-wrapper">
-            <video id="bgVideo" src="op.mp4" autoplay muted playsinline></video>
+            <video id="bgVideo" src="op.mp4" autoplay muted playsinline loop></video>
         </div>
         
         <div class="particles-container">
@@ -239,7 +280,7 @@
         </header>
 
         <div class="wiki-container">
-            <a href="https://jayibwi.wixsite.com/wikitopia-guide" target="_blank" class="wiki-btn">
+            <a href="https://jayibwi.wixsite.com/wikitopia-guide" target="_blank" class="wiki-btn" aria-label="Ouvrir le Wiki officiel">
                 📜 WIKI FR
             </a>
         </div>
@@ -258,8 +299,11 @@
             <a href="indexthai.html" class="lang-card">ไทย (Thai)</a>
         </div>
 
-        <div class="footer-signature">
-            Crée par <span>ASDRICK</span>
+        <div class="footer-container">
+            <div class="footer-signature">
+                Crée par <span>ASDRICK</span>
+            </div>
+            <a class="legal-link" onclick="document.getElementById('legal-modal').style.display='flex'">Mentions Légales & Crédits</a>
         </div>
     </div>
 
@@ -268,6 +312,7 @@
     <audio id="bg-music" src="musique.mp3" loop preload="auto"></audio>
 
     <script>
+        // --- GESTION DES LANGUES ---
         const translations = {
             'fr': "Cliquez pour déverrouiller le monde", 'en': "Click to unlock the world",
             'es': "Haz clic para desbloquear el mundo", 'de': "Klicken, um die Welt freizuschalten",
@@ -278,43 +323,59 @@
 
         const userLang = navigator.language || navigator.userLanguage; 
         const langCode = userLang.substring(0, 2);
-        document.getElementById('unlockText').innerText = translations[langCode] || translations['en'];
+        const textElement = document.getElementById('unlockText');
+        if (textElement) {
+            textElement.innerText = translations[langCode] || translations['en'];
+        }
 
+        // --- GESTION AUDIO & VIDEO ---
         const lockScreen = document.getElementById('lock-screen');
         const bgVideo = document.getElementById('bgVideo');
-        
-        // MODIFICATION DU SON ICI
         const bgMusic = document.getElementById('bg-music');
-        bgMusic.volume = 0.1; // Volume réglé à 10%
-
         const clickSound = document.getElementById('click-sound');
         const hoverSound = document.getElementById('hover-sound');
 
+        // Réglage volume doux
+        bgMusic.volume = 0.1; 
+
+        // Déverrouillage
         lockScreen.addEventListener('click', () => {
-            bgMusic.play().catch(() => {});
+            // Lecture sécurisée des sons (Chrome bloque parfois l'autoplay sans interaction)
+            bgMusic.play().catch(e => console.log("Audio autoplay bloqué par le navigateur", e));
             clickSound.play().catch(() => {});
+            
             lockScreen.classList.add('unlocked');
+            
+            // Relancer les vidéos si elles étaient en pause
             bgVideo.play().catch(() => {});
-            document.querySelector('#char-wrapper video').play().catch(() => {});
+            const charVideo = document.querySelector('#char-wrapper video');
+            if(charVideo) charVideo.play().catch(() => {});
         });
 
-        bgVideo.addEventListener('ended', () => triggerTransition('indexfr.html'));
-
+        // --- TRANSITION VERS LA CARTE ---
+        // Note: La vidéo de fond boucle maintenant (loop), la transition se fait au clic sur une langue.
+        
         function triggerTransition(destination) {
             clickSound.play().catch(() => {});
             document.body.classList.add('animating');
             document.getElementById('video-wrapper').classList.add('zoomed');   
+            
+            // Petit délai pour laisser l'animation se faire
             setTimeout(() => { window.location.href = destination; }, 1400);
         }
 
         document.querySelectorAll('.lang-card').forEach(card => {
-            card.addEventListener('mouseenter', () => { hoverSound.currentTime = 0; hoverSound.play().catch(() => {}); });
+            card.addEventListener('mouseenter', () => { 
+                hoverSound.currentTime = 0; 
+                hoverSound.play().catch(() => {}); 
+            });
             card.addEventListener('click', function(e) { 
                 e.preventDefault(); 
                 triggerTransition(this.getAttribute('href')); 
             });
         });
 
+        // --- BOUTON WIKI ---
         const wikiBtn = document.querySelector('.wiki-btn');
         if (wikiBtn) {
             wikiBtn.addEventListener('mouseenter', () => { hoverSound.currentTime = 0; hoverSound.play().catch(() => {}); });
