@@ -257,7 +257,7 @@ const bugList = [
     {name:"Actias neidhoederi", bg:"condition/actias_neidhoederi_lieu.png", cond:"condition/actias_neidhoederi_meteo.png", heure:"condition/actias_neidhoederi_heure.png"},
     {name:"Azuré des nerpruns", bg:"condition/azure_de_porcelaine_lieu.png", cond:"condition/azure_de_porcelaine_meteo.png", heure:"condition/azure_de_porcelaine_heure.png"},
     {name:"Bourdon", bg:"condition/bourdon_lieu.png", cond:"condition/bourdon_meteo.png", heure:"condition/bourdon_heure.png"},
-    {name:"Capricorne tigre", bg:"condition/capricorne_tigre_lieu.jpg", cond:"condition/capricorne_tigre_meteo.png", heure:"condition/capricorne_tigre_heure.png"},
+    {name:"Capricorne tigre", bg:"condition/capricorne_tigre_lieu.png", cond:"condition/capricorne_tigre_meteo.png", heure:"condition/capricorne_tigre_heure.png"},
     {name:"Cétoine étoile bleue", bg:"condition/cetoine_etoilee_bleue_lieu.png", cond:"condition/cetoine_etoilee_bleue_meteo.png", heure:"condition/cetoine_etoilee_bleue_heure.png"},
     {name:"Cicindèle verte", bg:"condition/cicindele_verte_lieu.png", cond:"condition/cicindele_verte_meteo.png", heure:"condition/cicindele_verte_heure.png"},
     {name:"Cigale", bg:"condition/cigale_lieu.png", cond:"condition/cigale_meteo.png", heure:"condition/cigale_heure.png"},
@@ -269,7 +269,7 @@ const bugList = [
     {name:"Criquet aux pattes massives", bg:"condition/criquet_aux_pattes_massives_lieu.png", cond:"condition/criquet_aux_pattes_massives_meteo.png", heure:"condition/criquet_aux_pattes_massives_heure.png"},
     {name:"Fourmi", bg:"condition/fourmi_lieu.png", cond:"condition/fourmi_meteo.png", heure:"condition/fourmi_heure.png"},
     {name:"Grand agrion", bg:"condition/grand_agrion_lieu.png", cond:"condition/grand_agrion_meteo.png", heure:"condition/grand_agrion_heure.png"},
-    {name:"Grillon", bg:"condition/grillon_lieu.jpg", cond:"condition/grillon_meteo.png", heure:"condition/grillon_heure.png"},
+    {name:"Grillon", bg:"condition/grillon_lieu.png", cond:"condition/grillon_meteo.png", heure:"condition/grillon_heure.png"},
     {name:"Libellule à queue blanche", bg:"condition/libellule_a_queue_blanche_lieu.png", cond:"condition/libellule_a_queue_blanche_meteo.png", heure:"condition/libellule_a_queue_blanche_heure.png"},
     {name:"Libellule tachetée", bg:"condition/libellule_tachetee_lieu.png", cond:"condition/libellule_tachetee_meteo.png", heure:"condition/libellule_tachetee_heure.png"},
     {name:"Mante arc-en-ciel", bg:"condition/mante_arcenciel_lieu.png", cond:"condition/mante_arcenciel_meteo.png", heure:"condition/mante_arcenciel_heure.png"},
@@ -287,7 +287,7 @@ const bugList = [
     {name:"Pyrochroa", bg:"condition/pyrochroa_lieu.png", cond:"condition/pyrochroa_meteo.png", heure:"condition/pyrochroa_heure.png"},
     {name:"Pyrrhocore", bg:"condition/pyrrhocoris_apterus_lieu.png", cond:"condition/pyrrhocoris_apterus_meteo.png", heure:"condition/pyrrhocoris_apterus_heure.png"},
     {name:"Sauterelle de l'oasis", bg:"condition/sauterelle_de_loasis_lieu.png", cond:"condition/sauterelle_de_loasis_meteo.png", heure:"condition/sauterelle_de_loasis_heure.png"},
-    {name:"Sauterelle rose", bg:"condition/sauterelle_rose_lieu.jpg", cond:"condition/sauterelle_rose_meteo.png", heure:"condition/sauterelle_rose_heure.png"},
+    {name:"Sauterelle rose", bg:"condition/sauterelle_rose_lieu.png", cond:"condition/sauterelle_rose_meteo.png", heure:"condition/sauterelle_rose_heure.png"},
     {name:"Scarabée licorne", bg:"condition/scarabee_unicorne_lieu.png", cond:"condition/scarabee_unicorne_meteo.png", heure:"condition/scarabee_unicorne_heure.png"},
     {name:"Vanesse violette", bg:"condition/Vanesse_violette_lieu.png", cond:"condition/Vanesse_violette_meteo.png", heure:"condition/Vanesse_violette_heure.png"}
 ];
@@ -388,3 +388,4 @@ const QUIZ_DATA = [
     { q: "Le Quai Oriental est au :", o: ["Nord", "Est", "Sud"], a: 1 },
     { q: "Bob est un :", o: ["Animal", "PNJ", "Lieu"], a: 1 }
 ];
+
