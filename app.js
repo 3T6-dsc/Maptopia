@@ -18,20 +18,20 @@ function initLikeSystem() {
    
     fetch(COUNT_API_URL_READ)
         .then(res => res.json())
-        .then(data => { likeCountSpan.innerText = data.count || 842; })
-        .catch(() => { likeCountSpan.innerText = "842"; });
+        .then(data => { if(likeCountSpan) likeCountSpan.innerText = data.count || 842; })
+        .catch(() => { if(likeCountSpan) likeCountSpan.innerText = "842"; });
     
     const isLiked = localStorage.getItem('maptopia_user_liked') === 'true';
-    if(isLiked) { lockLikeButton(likeBtn); }
+    if(isLiked && likeBtn) { lockLikeButton(likeBtn); }
 
     window.toggleLikeInternal = function() {
-        if (likeBtn.classList.contains('liked')) return;
+        if (!likeBtn || likeBtn.classList.contains('liked')) return;
         lockLikeButton(likeBtn);
         localStorage.setItem('maptopia_user_liked', 'true');
 
         fetch(COUNT_API_URL_GET)
             .then(res => res.json())
-            .then(data => { likeCountSpan.innerText = data.count; });
+            .then(data => { if(likeCountSpan) likeCountSpan.innerText = data.count; });
 
         sendLikeToDiscord();
     };
@@ -54,7 +54,7 @@ function sendLikeToDiscord() {
 // --- GESTION DU CHAT / CONTACT ---
 function toggleChat() {
     const box = document.getElementById('simple-chat-box');
-    box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
+    if(box) box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
 }
 
 function sendToDiscord() {
@@ -100,24 +100,31 @@ function sendToDiscord() {
 // --- NAVIGATION & UI ---
 function toggleMobileMenu() {
     const menu = document.getElementById('main-menu');
-    menu.classList.toggle('mobile-visible');
-    if(menu.classList.contains('mobile-visible')) document.getElementById('legend-box').classList.remove('mobile-visible');
+    if(menu) menu.classList.toggle('mobile-visible');
+    const legend = document.getElementById('legend-box');
+    if(menu && menu.classList.contains('mobile-visible') && legend) legend.classList.remove('mobile-visible');
 }
 function toggleMobileLegend() {
     const legend = document.getElementById('legend-box');
-    legend.classList.toggle('mobile-visible');
-    if(legend.classList.contains('mobile-visible')) document.getElementById('main-menu').classList.remove('mobile-visible');
+    if(legend) legend.classList.toggle('mobile-visible');
+    const menu = document.getElementById('main-menu');
+    if(legend && legend.classList.contains('mobile-visible') && menu) menu.classList.remove('mobile-visible');
 }
 function startExperience() {
-    document.getElementById('main-audio').play().catch(() => {});
+    const audio = document.getElementById('main-audio');
+    if(audio) audio.play().catch(() => {});
     document.getElementById('intro-screen').style.opacity = '0';
     document.getElementById('map').style.opacity = '1';
     setTimeout(() => {
         document.getElementById('intro-screen').style.display = 'none';
-        document.getElementById('welcome-modal').style.display = 'flex';
+        const welcome = document.getElementById('welcome-modal');
+        if(welcome) welcome.style.display = 'flex';
     }, 800);
 }
-function closeWelcome() { document.getElementById('welcome-modal').style.display = 'none'; }
+function closeWelcome() { 
+    const welcome = document.getElementById('welcome-modal');
+    if(welcome) welcome.style.display = 'none'; 
+}
 
 // --- CONFIGURATION CARTE ---
 var bounds = [[-1000, 0], [0, 1000]];
@@ -155,7 +162,7 @@ map.on('contextmenu', (e) => {
     var div = document.createElement('div');
     div.style.minWidth = "180px";
     
-    div.innerHTML = `<b style="display:block;margin-bottom:5px;text-align:center;">Nouveau Marqueur</b><input type="text" id="in-${mid}" placeholder="Nom..." style="width:100%; padding:5px; margin-bottom:10px; box-sizing:border-box;"><div style="display:flex; gap:5px; margin-bottom:10px; justify-content:center;">${Object.entries(colors).map(([k,v]) => `<div style="background:${v}; width:20px;
+    div.innerHTML = `<b style="display:block;margin-bottom:5px;text-align:center;">Nouveau Marqueur</b><input type="text" id="in-${mid}" placeholder="" style="width:100%; padding:5px; margin-bottom:10px; box-sizing:border-box;"><div style="display:flex; gap:5px; margin-bottom:10px; justify-content:center;">${Object.entries(colors).map(([k,v]) => `<div style="background:${v}; width:20px;
     height:20px; border-radius:50%; cursor:pointer; border:1px solid transparent;" onclick="selectPingColor('${k}', this)"></div>`).join('')}</div><button onclick="confirmPing('${mid}',${e.latlng.lat},${e.latlng.lng})" style="width:100%; background:#27ae60; color:white; border:none; padding:8px; cursor:pointer; border-radius:4px; font-weight:bold;">CONFIRMER</button><button onclick="cancelPing()" style="width:100%; background:#95a5a6;
     color:white; border:none; padding:5px; cursor:pointer; border-radius:4px; margin-top:5px; font-size:10px;">ANNULER</button>`;
     tempPingMarker.bindPopup(div, {closeOnClick: false}).openPopup();
@@ -179,7 +186,9 @@ window.removeUserPing = (id) => { if(pingMarkers[id]) map.removeLayer(pingMarker
 userPings = userPings.filter(p => p.id != id); localStorage.setItem('maptopia_pings', JSON.stringify(userPings)); updateUserLegend(); };
 
 function updateUserLegend() {
-    const list = document.getElementById('legend-list'); list.innerHTML = "";
+    const list = document.getElementById('legend-list'); 
+    if(!list) return;
+    list.innerHTML = "";
     userPings.forEach(p => {
         const div = document.createElement('div'); div.className='legend-item';
         div.innerHTML = `<div style="width:100%; display:flex; justify-content:space-between; align-items:center;"><span onclick="map.flyTo([${p.latlng.lat},${p.latlng.lng}], 2)" style="cursor:pointer;">${icons[p.icon]} ${p.text}</span><button onclick="removeUserPing('${p.id}')" style="background:none; border:none; color:white; cursor:pointer; font-weight:bold;">X</button></div><div class="coord-box">${p.latlng.lat.toFixed(1)}, ${p.latlng.lng.toFixed(1)}</div>`;
@@ -245,18 +254,12 @@ function register(cat, pos, name, img, opts = {}) {
 
 // --- CHARGEMENT DES DONNÉES DEPUIS data-fr.js ---
 function loadExternalData() {
-    // 1. PNJs
     if(typeof PNJ_DATA !== 'undefined') PNJ_DATA.forEach(d => register('pnj', [d[0], d[1]], d[2], d[3]));
-    // 2. BUS
     if(typeof BUS_DATA !== 'undefined') BUS_DATA.forEach(b => register('bus', b[1], b[0], 'bus.png', {startOn: true}));
-    // 3. SHOPS
     if(typeof SHOP_DATA !== 'undefined') SHOP_DATA.forEach(s => register('shop', [s[0],s[1]], s[2], s[3]));
-    // 4. ANIMAUX
     if(typeof ANIMAL_DATA !== 'undefined') ANIMAL_DATA.forEach(a => register('animal', a.pos, a.name, a.img, {radius: a.radius}));
-    // 5. LIEUX
     if(typeof LIEUX_DATA !== 'undefined') LIEUX_DATA.forEach(l => register('lieux', l.pos, l.name, '', {type:l.type, startOn:l.startOn}));
 
-    // Initialisation finale
     setTimeout(initMenu, 300);
     let albert = dataStorage.pnj.find(i => i.name === "Albert Jr.");
     if(albert) startAlbertPatrol(albert.marker, 0);
@@ -265,14 +268,18 @@ function loadExternalData() {
     initLikeSystem();
 }
 
+// SECURITÉ IMAGES MANQUANTES
+document.addEventListener('error', function (e) {
+    if (e.target.tagName === 'IMG') {
+        e.target.style.display = 'none'; // Empêche la recherche en boucle de l'image manquante
+    }
+}, true);
+
 function initMenu() {
-    // 1. CRÉATION DU MENU (Dynamique via TEXTS)
     var menuCtrl = L.control({position: 'topleft'});
     menuCtrl.onAdd = function() {
         var div = L.DomUtil.create('div', 'leaflet-control-layers');
         div.id = "main-menu";
-        
-        // On récupère les textes traduits ou valeurs par défaut
         const t = (typeof TEXTS !== 'undefined') ? TEXTS.menu : {};
 
         div.innerHTML = `
@@ -286,14 +293,12 @@ function initMenu() {
         <div id="c-bird"><div class="accordion-title title-bird">${t.birds || 'OISEAUX'}</div><div class="accordion-content"></div></div>
         <div id="c-resource"><div class="accordion-title title-resource">${t.resources || 'RESSOURCES'}</div><div class="accordion-content"></div></div>`;
         
-        // Empêcher le clic de traverser la carte
         L.DomEvent.disableScrollPropagation(div);
         L.DomEvent.disableClickPropagation(div);
         return div;
     };
     menuCtrl.addTo(map);
 
-    // --- 1. Gestion des catégories "Standards" ---
     ['pnj','animal','bus','shop','lieux'].forEach(cat => {
         var box = document.getElementById('c-'+cat);
         if(!box) return;
@@ -331,14 +336,12 @@ function initMenu() {
         });
     });
 
-    // --- 2. Gestion des catégories "Collections" ---
     let savedCollection = JSON.parse(localStorage.getItem('maptopia_collection')) || {};
     ['fish', 'bug', 'bird'].forEach(type => {
         let box = document.getElementById('c-'+type);
         if (!box) return;
         let content = box.querySelector('.accordion-content');
         let list;
-        // On récupère les listes depuis data-fr.js
         if (type === 'fish') list = (typeof fishList !== 'undefined') ? fishList : [];
         else if (type === 'bug') list = (typeof bugList !== 'undefined') ? bugList : [];
         else list = (typeof birdList !== 'undefined') ? birdList : [];
@@ -371,7 +374,6 @@ function initMenu() {
         });
     });
 
-    // --- 3. Gestion Ressources ---
     var resContainer = document.querySelector(`#c-resource .accordion-content`);
     var resTitle = document.querySelector(`#c-resource .accordion-title`);
     if(resContainer && resTitle && typeof resourcesData !== 'undefined') {
@@ -396,8 +398,11 @@ function initMenu() {
         });
     }
 
-    L.DomEvent.disableScrollPropagation(document.getElementById('main-menu'));
-    L.DomEvent.disableClickPropagation(document.getElementById('main-menu'));
+    const mainMenu = document.getElementById('main-menu');
+    if(mainMenu) {
+        L.DomEvent.disableScrollPropagation(mainMenu);
+        L.DomEvent.disableClickPropagation(mainMenu);
+    }
 }
 
 function toggleResourceGroup(name, data, btnElement) {
@@ -422,47 +427,59 @@ function toggleResourceGroup(name, data, btnElement) {
 
 function openOverlay(name, img_loc, img_weather, img_time) {
     document.getElementById('info-name').innerText = name;
-    document.getElementById('info-loc').src = img_loc;
-    document.getElementById('info-weather').src = img_weather;
-    document.getElementById('info-time').src = img_time;
+    const loc = document.getElementById('info-loc');
+    const weather = document.getElementById('info-weather');
+    const time = document.getElementById('info-time');
+    if(loc) loc.src = img_loc || '';
+    if(weather) weather.src = img_weather || '';
+    if(time) time.src = img_time || '';
     document.getElementById('overlay-info').style.display = 'flex';
 }
 
 // --- LOGIQUE QUIZ ---
 let currentQ = 0;
 function openQuiz() {
-    // Utilise la variable QUIZ_DATA définie dans data-fr.js
     if(typeof QUIZ_DATA === 'undefined') return;
     currentQ = 0;
-    document.getElementById('quiz-container').style.display = 'block';
+    const quiz = document.getElementById('quiz-container');
+    if(quiz) quiz.style.display = 'block';
     showQuestion();
 }
-function closeQuiz() { document.getElementById('quiz-container').style.display = 'none'; }
+function closeQuiz() { 
+    const quiz = document.getElementById('quiz-container');
+    if(quiz) quiz.style.display = 'none'; 
+}
 function showQuestion() {
     let q = QUIZ_DATA[currentQ];
-    document.getElementById('quiz-question').innerText = `Question ${currentQ + 1}/30 : ${q.q}`;
+    const quest = document.getElementById('quiz-question');
+    if(quest) quest.innerText = `Question ${currentQ + 1}/30 : ${q.q}`;
     let optContainer = document.getElementById('quiz-options');
+    if(!optContainer) return;
     optContainer.innerHTML = "";
-    document.getElementById('quiz-feedback').innerText = "";
+    const feedback = document.getElementById('quiz-feedback');
+    if(feedback) feedback.innerText = "";
     q.o.forEach((opt, i) => {
         let btn = document.createElement('div'); btn.className = 'quiz-option'; btn.innerText = opt;
         btn.onclick = () => {
             if(i === q.a) {
-                document.getElementById('quiz-feedback').innerText = getTxt('quiz.success', "✅ BRAVO !");
-                document.getElementById('quiz-feedback').style.color = "green";
+                if(feedback) feedback.innerText = getTxt('quiz.success', "✅ BRAVO !");
+                if(feedback) feedback.style.color = "green";
                 setTimeout(() => { currentQ++; if(currentQ < 30) showQuestion(); else finishQuiz(); }, 1000);
             } else {
-                document.getElementById('quiz-feedback').innerText = getTxt('quiz.error', "❌ ERREUR !");
-                document.getElementById('quiz-feedback').style.color = "red";
+                if(feedback) feedback.innerText = getTxt('quiz.error', "❌ ERREUR !");
+                if(feedback) feedback.style.color = "red";
             }
         };
         optContainer.appendChild(btn);
     });
 }
 function finishQuiz() {
-    document.getElementById('quiz-question').innerText = getTxt('quiz.finishTitle', "🏆 EXPERT CONFIRMÉ !");
-    document.getElementById('quiz-options').innerHTML = `<p>${getTxt('quiz.finishText', "Félicitations !")}</p>`;
-    document.getElementById('quiz-feedback').innerText = "";
+    const quest = document.getElementById('quiz-question');
+    if(quest) quest.innerText = getTxt('quiz.finishTitle', "🏆 EXPERT CONFIRMED !");
+    const optContainer = document.getElementById('quiz-options');
+    if(optContainer) optContainer.innerHTML = `<p>${getTxt('quiz.finishText', "Félicitations !")}</p>`;
+    const feedback = document.getElementById('quiz-feedback');
+    if(feedback) feedback.innerText = "";
 }
 
 // LANCEMENT
