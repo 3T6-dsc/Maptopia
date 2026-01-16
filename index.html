@@ -122,16 +122,17 @@
             transition: opacity 0.3s ease, transform 0.1s ease-out; padding: 0 20px;
         }
 
-        /* --- STYLE COLLABORATION --- */
+        /* --- STYLE COLLABORATION AMÉLIORÉ --- */
         .collab-mention {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1rem;
-            color: #ffd700;
+            font-size: 1.4rem;
+            color: #ffcc00;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-            opacity: 0.9;
+            letter-spacing: 4px;
+            margin-bottom: 5px; /* Réduit pour l'effet de suite avec le titre */
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.8), 0 0 20px rgba(0, 0, 0, 1);
+            font-weight: bold;
+            display: inline-block;
         }
 
         .hero-title {
@@ -247,7 +248,7 @@
             .footer-signature { font-size: 0.8rem; }
             .footer-signature span { font-size: 1.2rem; }
             .action-btn { padding: 8px 15px; font-size: 0.8rem; }
-            .collab-mention { font-size: 0.7rem; letter-spacing: 2px; }
+            .collab-mention { font-size: 1rem; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -285,7 +286,7 @@
         <div id="transition-screen"></div>
 
         <header id="main-header">
-            <div class="collab-mention">Maptopia en collaboration avec Hartopia</div>
+            <div class="collab-mention">Maptopia en collaboration avec</div>
             
             <h1 class="hero-title">HEARTOPIA</h1>
             <p class="welcome-subtitle">
@@ -331,8 +332,8 @@
     <script>
         const translations = {
             'fr': "Cliquez pour déverrouiller le monde", 'en': "Click to unlock the world",
-            'es': "Haz clic para desbloquear el mundo", 'de': "Klicken, um die Welt freizuschalten",
-            'it': "Clicca per sbloccare il mondo", 'pt': "Clique para desbloquear o mundo",
+            'es': "Haz clic para desbloquear le monde", 'de': "Klicken, um die Welt freizuschalten",
+            'it': "Clicca per sbloccare il mondo", 'pt': "Clique para desbloquear o monde",
             'zh': "点击解锁世界", 'id': "Klik pour membuka dunia",
             'th': "คลิกเพื่อปลดล็อกโลก", 'ja': "クリックして世界のロックを解除", 'ko': "세계를 잠금 해제하려면 클릭하세요"
         };
