@@ -52,9 +52,6 @@
             transform: translateY(-50%);
             pointer-events: none;
         }
-        .lang-select:hover + .lang-select-container::after {
-            color: #000;
-        }
     </style>
 </head>
 <body>
@@ -69,13 +66,11 @@
 
     <audio id="main-audio"><source src="sonheartopia.mp4" type="audio/mp4"></audio>
 
-    <button id="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Ouvrir le menu">☰</button>
-    <button id="mobile-legend-toggle" onclick="toggleMobileLegend()" aria-label="Ouvrir la légende">📌</button>
+    <button id="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+    <button id="mobile-legend-toggle" onclick="toggleMobileLegend()">📌</button>
 
     <div id="intro-screen">
-        <a href="https://heartopia.xd.com/en" target="_blank" class="official-link-text" title="Site Officiel Heartopia">
-            LIEN OFFICIEL HEARTOPIA
-        </a>
+        <a href="https://heartopia.xd.com/fr" target="_blank" class="official-link-text">LIEN OFFICIEL HEARTOPIA</a>
         <h1 class="heartopia-title">MAPTOPIA FR</h1>
         <div class="welcome-box">
             <p>Explorez la carte interactive officielle de la communauté Heartopia.</p>
@@ -92,7 +87,7 @@
                 Bienvenue sur <b>Maptopia</b> !<br>
                 <div class="details-list">
                     • <b>Navigation :</b> Menu compact sur la gauche.<br>
-                    <span class="pc-only">• <b>Marqueurs :</b> Clic Droit pour épingler.<br></span>
+                    <span class="pc-only">• <b>Marqueurs :</b> Clic droit pour épingler.<br></span>
                     • <b>Collection :</b> Cochez les cases pour suivre votre progression.<br>
                     • <b>Ressources :</b> Zones de récolte affichées.<br>
                     • <b>Sauvegarde :</b> Données enregistrées automatiquement.
@@ -103,16 +98,14 @@
     </div>
 
     <div id="social-container">
-        <div id="contact-trigger" onclick="toggleChat()" aria-label="Ouvrir le chat">💬</div>
-        <a href="https://discord.gg/M4BkXRhhUw" target="_blank" title="Rejoindre le Discord">
-            <img src="Discord-Logo-PNG-Pic.png" id="discord-img" class="social-btn-img" alt="Discord">
-        </a>
+        <div id="contact-trigger" onclick="toggleChat()">💬</div>
+        <a href="https://discord.gg/M4BkXRhhUw" target="_blank"><img src="Discord-Logo-PNG-Pic.png" id="discord-img" class="social-btn-img"></a>
     </div>
 
     <div id="simple-chat-box">
         <div class="chat-header"><span>CONTACT</span><button class="close-chat" onclick="toggleChat()">X</button></div>
         <div class="chat-form">
-            <input type="text" id="user-name" class="chat-input" placeholder="Nom Discord">
+            <input type="text" id="user-name" class="chat-input" placeholder="Pseudo Discord">
             <textarea id="user-msg" class="chat-textarea" placeholder="Message..."></textarea>
             <button class="chat-submit" onclick="sendToDiscord()">ENVOYER</button>
             <div id="chat-status"></div>
@@ -120,10 +113,9 @@
     </div>
 
     <div class="ping-legend" id="legend-box">
-        
         <div class="lang-select-container">
             <select class="lang-select" onchange="if (this.value) window.location.href=this.value + '?auto=1'">
-                <option value="" disabled>🌍 LANGUE / LANGUAGE</option>
+                <option value="" disabled>🌍 LANGUE</option>
                 <option value="indexfr.html" selected>🇫🇷 Français</option>
                 <option value="indexen.html">🇬🇧 English</option>
                 <option value="indexes.html">🇪🇸 Español</option>
@@ -137,12 +129,11 @@
                 <option value="indexthai.html">🇹🇭 ไทย (Thai)</option>
             </select>
         </div>
-
         <div style="text-align:center; font-weight:bold; border-bottom:1px solid #d4af37; padding-bottom:5px; font-size:12px;">📌 MARQUEURS</div>
         <div id="legend-list"></div>
         <div class="rating-container">
             <div class="like-section">
-                <button id="like-btn-internal" class="like-btn-internal" onclick="toggleLikeInternal()"><span class="heart-icon-anim">❤</span> AIMER</button>
+                <button id="like-btn-internal" class="like-btn-internal" onclick="toggleLikeInternal()"><span class="heart-icon-anim">❤</span> J'AIME</button>
                 <span id="like-count-internal">...</span>
             </div>
         </div>
@@ -158,7 +149,7 @@
                 <div style="flex: 1;"><p>MÉTÉO</p><img id="info-weather" src="" style="width:100%;"></div>
                 <div style="flex: 1;"><p>HORAIRES</p><img id="info-time" src="" style="width:100%;"></div>
             </div>
-            <div style="width: 100%;"><p>ZONE</p><img id="info-loc" src="" onerror="this.src='placeholder.jpg'" style="width:100%;"></div>
+            <div style="width: 100%;"><p>EMPLACEMENT</p><img id="info-loc" src="" style="width:100%;"></div>
             <button onclick="document.getElementById('overlay-info').style.display='none'" style="margin-top:20px; background:#8b0000; color:white; border:none; border-radius:50px; padding:10px;">FERMER</button>
         </div>
     </div>
@@ -168,22 +159,13 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Vérifie si l'URL contient ?auto=1
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('auto')) {
-                // 1. Cacher l'écran d'intro
                 const intro = document.getElementById('intro-screen');
                 if (intro) intro.style.display = 'none';
-
-                // 2. Lancer la carte tout de suite
-                if (typeof startExperience === 'function') {
-                    // Note: Le son sera probablement coupé par le navigateur car pas de clic, 
-                    // mais la carte se chargera.
-                    startExperience();
-                }
+                if (typeof startExperience === 'function') { startExperience(); }
             }
         });
     </script>
-
 </body>
 </html>
