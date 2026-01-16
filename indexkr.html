@@ -1,15 +1,61 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <link rel="stylesheet" href="mobile.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Maptopia KR - Heartopia System</title>
+    
+    <title>Maptopia KO - 전체 지도</title>
+    <meta property="og:title" content="Maptopia KO - 대화형 지도">
+    <meta property="og:description" content="Heartopia의 모든 NPC, 자원, 물고기 및 곤충을 찾으세요.">
+    <meta property="og:image" content="https://maptopia-asdrick.com/maptopia.jpg">
+    <meta name="theme-color" content="#8b0000">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
     <link rel="stylesheet" href="style.css">
     
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        /* Style du menu déroulant intégré */
+        .lang-select-container {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .lang-select {
+            width: 100%;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffd700;
+            border: 1px solid #d4af37;
+            border-radius: 4px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .lang-select:hover {
+            background-color: #ffd700;
+            color: #000;
+        }
+        .lang-select-container::after {
+            content: '▼';
+            font-size: 10px;
+            color: #d4af37;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        .lang-select:hover + .lang-select-container::after {
+            color: #000;
+        }
+    </style>
 </head>
 <body>
 
@@ -23,17 +69,16 @@
 
     <audio id="main-audio"><source src="sonheartopia.mp4" type="audio/mp4"></audio>
 
-    <button id="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
-    <button id="mobile-legend-toggle" onclick="toggleMobileLegend()">📌</button>
+    <button id="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="메뉴 열기">☰</button>
+    <button id="mobile-legend-toggle" onclick="toggleMobileLegend()" aria-label="범례 열기">📌</button>
 
     <div id="intro-screen">
         <a href="https://heartopia.xd.com/en" target="_blank" class="official-link-text" title="Heartopia 공식 사이트">
-            Heartopia 공식 커뮤니티 지도 탐험
+            HEARTOPIA 공식 링크
         </a>
-
         <h1 class="heartopia-title">MAPTOPIA KR</h1>
         <div class="welcome-box">
-            <p>Heartopia 커뮤니티의 공식 인터랙티브 지도를 탐험하세요.</p>
+            <p>Heartopia 커뮤니티의 공식 대화형 지도를 탐색하세요.</p>
             <div class="btn-container">
                 <button id="enter-button" class="btn-magic" onclick="startExperience()">✨ 지도 입장 ✨</button>
             </div>
@@ -44,119 +89,98 @@
         <div class="welcome-content">
             <div class="welcome-header">친애하는 하토피아인 여러분</div>
             <div class="welcome-text">
-                <b>Maptopia</b>에 오신 것을 환영합니다! Heartopia 탐험을 위한 최고의 동반자입니다.<br>
-             
+                <b>Maptopia</b>에 오신 것을 환영합니다!<br>
                 <div class="details-list">
-                    • <b>탐색:</b> 왼쪽의 간소한 메뉴로 필터링하세요.<br>
-                    <span class="pc-only">• <b>마커:</b> <b>우클릭</b>으로 나만의 지점을 표시하세요.<br></span>
-                    • <b>도감:</b> "물고기", "곤충", "새" 메뉴의 체크박스로 진행 상황을 추적하세요.<br>
-                    • <b>자원:</b> 새로운 기능! 채집 구역(나무, 광석, 과일)이 지도에 표시됩니다.<br>
-                    • <b>문의:</b> 오른쪽 하단의 💬 말풍선을 사용하여 팀에게 비공개 메시지를 보내세요.<br>
-                    • <b>이메일:</b> <b>maptopiafr@gmail.com</b>으로도 연락하실 수 있습니다.<br>
-                    • <b>백업:</b> 데이터는 이곳에 저장됩니다.
+                    • <b>내비게이션:</b> 왼쪽의 컴팩트 메뉴.<br>
+                    <span class="pc-only">• <b>마커:</b> 오른쪽 클릭으로 고정.<br></span>
+                    • <b>수집:</b> 진행 상황을 추적하려면 상자를 체크하세요.<br>
+                    • <b>자원:</b> 수집 구역이 지도에 표시됩니다.<br>
+                    • <b>저장:</b> 데이터가 자동으로 저장됩니다.
                 </div>
-
-                <div class="welcome-note">
-                    🐾 <b>이동 관련 참고:</b><br>
-                    동물들의 움직임은 가상이지만 실제 서식지를 기반으로 합니다.
-                    Albert Jr.가 마을을 순찰하며 안내합니다.
-                </div>
-                🛠️ <b>프로젝트 상태:</b><br>
-                이 사이트는 현재 개발 중입니다.
             </div>
-            <button class="btn-rex" onclick="closeWelcome()">출발!</button>
+            <button class="btn-rex" onclick="closeWelcome()">시작!</button>
         </div>
     </div>
 
     <div id="social-container">
-        <div id="contact-trigger" onclick="toggleChat()">💬</div>
-        <a href="https://discord.gg/CGqNppubHv" target="_blank" title="Discord 참여" id="discord-link-wrapper">
+        <div id="contact-trigger" onclick="toggleChat()" aria-label="채팅 열기">💬</div>
+        <a href="https://discord.gg/M4BkXRhhUw" target="_blank" title="Discord 가입">
             <img src="Discord-Logo-PNG-Pic.png" id="discord-img" class="social-btn-img" alt="Discord">
         </a>
     </div>
 
     <div id="simple-chat-box">
-        <div class="chat-header">
-            <span>팀에게 연락하기</span>
-            <button class="close-chat" onclick="toggleChat()">X</button>
-        </div>
+        <div class="chat-header"><span>연락처</span><button class="close-chat" onclick="toggleChat()">X</button></div>
         <div class="chat-form">
-            <label class="chat-label">디스코드 이름 (답변용)</label>
-            <input type="text" id="user-name" class="chat-input" placeholder="예: Rex#1234">
-
-            <label class="chat-label">메시지</label>
-            <textarea id="user-msg" class="chat-textarea" placeholder="아이디어가 있나요? 오류를 발견했나요? 알려주세요..."></textarea>
-
-            <button class="chat-submit" onclick="sendToDiscord()">전송</button>
+            <input type="text" id="user-name" class="chat-input" placeholder="Discord 이름">
+            <textarea id="user-msg" class="chat-textarea" placeholder="메시지..."></textarea>
+            <button class="chat-submit" onclick="sendToDiscord()">보내기</button>
             <div id="chat-status"></div>
-
-            <div class="chat-footer-mail">
-                또는 이메일로: <a href="mailto:maptopiafr@gmail.com?subject=Contact%20Maptopia">maptopiafr@gmail.com</a>
-            </div>
         </div>
     </div>
 
     <div class="ping-legend" id="legend-box">
-        <div class="language-selector legend-langs" style="margin-bottom: 10px; display: flex; gap: 8px; justify-content: center;">
-            <a href="index.html" class="btn-lang-switch">🌍 언어 변경</a>
-        </div>
-
-        <div style="text-align:center; font-weight:bold; border-bottom:1px solid #d4af37; padding-bottom:5px; font-size:12px;"></div>
         
-        <div style="text-align:center; font-weight:bold; border-bottom:1px solid #d4af37; padding-bottom:5px; font-size:12px;">📌 내 마커</div>
-        <div id="legend-list"></div>
-        <div class="legend-guide">
-            <div class="guide-row pc-only"><span class="guide-icon">🖥️</span><span><b>PC:</b> 우클릭 = 마커</span></div>
-            <div class="guide-row"><span class="guide-icon">📱</span><span><b>모바일:</b> 왼쪽 상단 메뉴</span></div>
+        <div class="lang-select-container">
+            <select class="lang-select" onchange="if (this.value) window.location.href=this.value + '?auto=1'">
+                <option value="" disabled>🌍 언어 / LANGUAGE</option>
+                <option value="indexfr.html">🇫🇷 Français</option>
+                <option value="indexen.html">🇬🇧 English</option>
+                <option value="indexes.html">🇪🇸 Español</option>
+                <option value="indexde.html">🇩🇪 Deutsch</option>
+                <option value="indexit.html">🇮🇹 Italiano</option>
+                <option value="indexpo.html">🇵🇹 Português</option>
+                <option value="indexch.html">🇨🇳 中文 (Chinese)</option>
+                <option value="indexja.html">🇯🇵 日本語 (Japanese)</option>
+                <option value="indexko.html" selected>🇰🇷 한국어 (Korean)</option> <option value="indexin.html">🇮🇩 Bahasa Indonesia</option>
+                <option value="indexthai.html">🇹🇭 ไทย (Thai)</option>
+            </select>
         </div>
 
+        <div style="text-align:center; font-weight:bold; border-bottom:1px solid #d4af37; padding-bottom:5px; font-size:12px;">📌 마커</div>
+        <div id="legend-list"></div>
         <div class="rating-container">
             <div class="like-section">
-                <button id="like-btn-internal" class="like-btn-internal" onclick="toggleLikeInternal()">
-                    <span class="heart-icon-anim">❤</span> 좋아요
-                </button>
-                <span id="like-count-internal">로딩 중...</span>
-            </div>
-            <p style="font-size:9px; color:#777; margin-top:5px;">(클릭하여 후원해주세요!)</p>
-        </div>
-        <div class="quiz-section">
-            <p style="font-size:10px; color:#aaa; margin-bottom:5px; text-align:center;">지식 테스트</p>
-            <div style="display: flex; justify-content: center;">
-                <div id="quiz-trigger" onclick="openQuiz()">🎓</div>
+                <button id="like-btn-internal" class="like-btn-internal" onclick="toggleLikeInternal()"><span class="heart-icon-anim">❤</span> 좋아요</button>
+                <span id="like-count-internal">...</span>
             </div>
         </div>
+        <div class="quiz-section"><div id="quiz-trigger" onclick="openQuiz()">🎓</div></div>
     </div>
 
     <div id="map"></div>
 
     <div id="overlay-info" onclick="this.style.display='none'" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; justify-content:center; align-items:center;">
         <div class="info-card" onclick="event.stopPropagation()" style="background:white; padding:5px; border-radius:50px; width:95%; max-width:530px; text-align:center; max-height: 90vh; overflow-y: auto;">
-            <h2 id="info-name" style="color:#8b0000; margin-top:0; text-transform:uppercase; border-bottom: 2px solid #d4af37; padding-bottom: 5px;"></h2>
-
+            <h2 id="info-name" style="color:#8b0000; margin-top:0; border-bottom: 2px solid #d4af37;"></h2>
             <div style="display: flex; gap: 10px; margin-bottom: 15px; justify-content: center;">
-                <div style="flex: 1;">
-                    <p style="font-size: 10px; font-weight: bold; margin-bottom: 5px;">날씨</p>
-                    <img id="info-weather" src="" style="width:100%; border-radius:8px; border: 1px solid #eee;">
-                </div>
-                <div style="flex: 1;">
-                    <p style="font-size: 10px; font-weight: bold; margin-bottom: 5px;">시간</p>
-                    <img id="info-time" src="" style="width:100%; border-radius:8px; border: 1px solid #eee;">
-                </div>
+                <div style="flex: 1;"><p>날씨</p><img id="info-weather" src="" style="width:100%;"></div>
+                <div style="flex: 1;"><p>시간</p><img id="info-time" src="" style="width:100%;"></div>
             </div>
-
-            <div style="width: 100%; margin-top: 10px;">
-                <p style="font-size: 10px; font-weight: bold; margin-bottom: 5px;">포획 구역</p>
-                <img id="info-loc" src="" style="width:100%; max-width: 550px; border-radius:12px; border: 2px solid #d4af37; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-            </div>
-
-            <button onclick="document.getElementById('overlay-info').style.display='none'" style="margin-top:20px; padding:12px 30px; cursor:pointer; background:#8b0000; color:white; border:none; border-radius:50px; font-weight:bold; text-transform:uppercase;">닫기</button>
+            <div style="width: 100%;"><p>위치</p><img id="info-loc" src="" onerror="this.src='placeholder.jpg'" style="width:100%;"></div>
+            <button onclick="document.getElementById('overlay-info').style.display='none'" style="margin-top:20px; background:#8b0000; color:white; border:none; border-radius:50px; padding:10px;">닫기</button>
         </div>
     </div>
 
-    <script src="data-kr.js"></script>
-
+    <script src="data-kr.js"></script> 
     <script src="app.js"></script>
 
-</body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Vérifie si l'URL contient ?auto=1
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('auto')) {
+                // 1. Cacher l'écran d'intro
+                const intro = document.getElementById('intro-screen');
+                if (intro) intro.style.display = 'none';
 
+                // 2. Lancer la carte tout de suite
+                if (typeof startExperience === 'function') {
+                    startExperience();
+                }
+            }
+        });
+    </script>
+
+</body>
 </html>
