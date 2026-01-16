@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maptopia - La Carte Interactive Heartopia</title>
+    <title>Maptopia - Accueil</title>
     
     <meta property="og:title" content="Maptopia - Carte Interactive Heartopia">
     <meta property="og:description" content="Découvrez toutes les ressources, PNJ et secrets d'Heartopia sur une carte interactive multilingue.">
-    <meta property="og:image" content="https://maptopia-asdrick.com/maptopia.jpg"> <meta property="og:url" content="https://maptopia-asdrick.com/">
+    <meta property="og:image" content="https://maptopia-asdrick.com/maptopia.jpg">
+    <meta property="og:url" content="https://maptopia-asdrick.com/">
     <meta property="og:type" content="website">
     <meta name="theme-color" content="#8b0000">
 
@@ -134,26 +135,27 @@
         .welcome-subtitle { font-size: 1.2rem; margin-top: 15px; letter-spacing: 2px; }
         .gold-text { color: #ffd700; font-weight: bold; }
 
-        /* --- BOUTON WIKI --- */
-        .wiki-container {
-            position: relative; z-index: 35; text-align: center; margin-bottom: 15px;
+        /* --- BOUTONS (WIKI + OFFICIEL) --- */
+        .buttons-row {
+            position: relative; z-index: 35; text-align: center; margin-bottom: 20px;
+            display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;
             transition: opacity 0.3s ease;
         }
-        .wiki-btn {
+        .action-btn {
             display: inline-flex; align-items: center; justify-content: center;
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.1rem; color: #ffd700; text-decoration: none;
+            font-size: 0.9rem; color: #ffd700; text-decoration: none;
             background: rgba(0, 0, 0, 0.6); 
             border: 2px solid #ffd700; border-radius: 50px;
-            padding: 12px 30px; letter-spacing: 2px;
+            padding: 10px 20px; letter-spacing: 1px;
             box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
         }
-        .wiki-btn:hover {
+        .action-btn:hover {
             background: #ffd700; color: #000;
             box-shadow: 0 0 25px rgba(255, 215, 0, 0.9);
-            transform: scale(1.05) translateY(-2px);
+            transform: scale(1.05);
         }
 
         /* --- SELECTION DE LANGUE --- */
@@ -181,10 +183,10 @@
 
         .span-2 { grid-column: span 2; }
 
-        /* --- FOOTER & CREDITS [PRO] --- */
+        /* --- FOOTER & CREDITS --- */
         .footer-container {
             position: absolute; bottom: 15px; width: 100%; text-align: center; z-index: 40;
-            font-family: 'Raleway', sans-serif; pointer-events: auto; /* Activé pour cliquer */
+            font-family: 'Raleway', sans-serif; pointer-events: auto;
             transition: opacity 0.3s ease;
         }
         .footer-signature {
@@ -195,15 +197,13 @@
             font-family: 'Cinzel Decorative', serif; color: #ffd700; font-weight: bold; font-size: 1.5rem; 
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); margin-left: 8px;
         }
-        
-        /* Lien discret Mentions Légales */
         .legal-link {
             display: block; margin-top: 5px; font-size: 0.7rem; color: rgba(255,255,255,0.4);
             text-decoration: none; letter-spacing: 1px; cursor: pointer;
         }
         .legal-link:hover { color: #ffd700; text-decoration: underline; }
 
-        /* --- MODAL CREDITS [PRO] --- */
+        /* --- MODAL CREDITS --- */
         #legal-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.9); z-index: 50000; justify-content: center; align-items: center;
@@ -224,17 +224,17 @@
 
         body.animating #ui-layer, 
         body.animating #main-header, 
-        body.animating .wiki-container,
+        body.animating .buttons-row,
         body.animating .footer-container { opacity: 0; pointer-events: none; }
 
         @media only screen and (max-width: 768px) {
-            #ui-layer { grid-template-columns: repeat(2, 1fr); width: 95%; max-height: 50vh; overflow-y: auto; }
+            #ui-layer { grid-template-columns: repeat(2, 1fr); width: 95%; max-height: 45vh; overflow-y: auto; }
             .span-2 { grid-column: auto; }
             .hero-title { font-size: 2.2rem; }
             .welcome-subtitle { font-size: 0.9rem; }
             .footer-signature { font-size: 0.8rem; }
             .footer-signature span { font-size: 1.2rem; }
-            .wiki-btn { font-size: 0.9rem; padding: 10px 25px; }
+            .action-btn { padding: 8px 15px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -251,7 +251,6 @@
             <p><strong>Maptopia</strong> est un projet communautaire non-officiel développé avec passion pour les joueurs d'Heartopia.</p>
             <p>Développé par <strong>Asdrick</strong>.<br>
             Assets graphiques et sonores © Heartopia / Leurs propriétaires respectifs.</p>
-            <p>Ce site n'est pas affilié, soutenu ou sponsorizado officiellement par le studio de développement du jeu.</p>
             <button class="close-btn" onclick="document.getElementById('legal-modal').style.display='none'">Fermer</button>
         </div>
     </div>
@@ -279,9 +278,12 @@
             </p>
         </header>
 
-        <div class="wiki-container">
-            <a href="https://jayibwi.wixsite.com/wikitopia-guide" target="_blank" class="wiki-btn" aria-label="Ouvrir le Wiki officiel">
+        <div class="buttons-row">
+            <a href="https://jayibwi.wixsite.com/wikitopia-guide" target="_blank" class="action-btn" aria-label="Ouvrir le Wiki officiel">
                 📜 WIKI FR
+            </a>
+            <a href="https://heartopia.xd.com/fr" target="_blank" class="action-btn" aria-label="Site Officiel Heartopia">
+                🌐 SITE OFFICIEL
             </a>
         </div>
 
@@ -335,32 +337,25 @@
         const clickSound = document.getElementById('click-sound');
         const hoverSound = document.getElementById('hover-sound');
 
-        // Réglage volume doux
         bgMusic.volume = 0.1; 
 
-        // Déverrouillage
         lockScreen.addEventListener('click', () => {
-            // Lecture sécurisée des sons (Chrome bloque parfois l'autoplay sans interaction)
             bgMusic.play().catch(e => console.log("Audio autoplay bloqué par le navigateur", e));
             clickSound.play().catch(() => {});
             
             lockScreen.classList.add('unlocked');
             
-            // Relancer les vidéos si elles étaient en pause
             bgVideo.play().catch(() => {});
             const charVideo = document.querySelector('#char-wrapper video');
             if(charVideo) charVideo.play().catch(() => {});
         });
 
         // --- TRANSITION VERS LA CARTE ---
-        // Note: La vidéo de fond boucle maintenant (loop), la transition se fait au clic sur une langue.
-        
         function triggerTransition(destination) {
             clickSound.play().catch(() => {});
             document.body.classList.add('animating');
             document.getElementById('video-wrapper').classList.add('zoomed');   
             
-            // Petit délai pour laisser l'animation se faire
             setTimeout(() => { window.location.href = destination; }, 1400);
         }
 
@@ -371,16 +366,16 @@
             });
             card.addEventListener('click', function(e) { 
                 e.preventDefault(); 
-                triggerTransition(this.getAttribute('href')); 
+                
+                const targetUrl = this.getAttribute('href');
+                
+                // ICI ON AJOUTE JUSTE LE SIGNAL SANS SAUVEGARDER
+                const separator = targetUrl.includes('?') ? '&' : '?';
+                const finalUrl = targetUrl + separator + 'auto=1';
+                
+                triggerTransition(finalUrl); 
             });
         });
-
-        // --- BOUTON WIKI ---
-        const wikiBtn = document.querySelector('.wiki-btn');
-        if (wikiBtn) {
-            wikiBtn.addEventListener('mouseenter', () => { hoverSound.currentTime = 0; hoverSound.play().catch(() => {}); });
-            wikiBtn.addEventListener('click', () => { clickSound.play().catch(() => {}); });
-        }
     </script>
 </body>
 </html>
