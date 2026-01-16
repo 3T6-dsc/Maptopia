@@ -54,5 +54,5 @@
 
 ---
 
-**© 2024 Asdrick. Tous droits réservés.**
+**© 2026 Asdrick. Tous droits réservés.**
 *Toute reproduction interdite sans autorisation.*
