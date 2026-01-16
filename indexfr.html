@@ -17,6 +17,39 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <style>
+        /* --- STYLE DE LA BANNIÈRE --- */
+        #affiliation-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(90deg, #000000, #1a1a1a);
+            color: #ffd700; /* Or */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Raleway', sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 10001; /* Au-dessus de tout */
+            border-bottom: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Ajustement des boutons mobiles pour qu'ils ne soient pas cachés par la bannière */
+        #mobile-menu-toggle, #mobile-legend-toggle {
+            top: 40px !important; /* Décalage vers le bas (30px bannière + 10px marge) */
+        }
+
+        /* Ajustement de l'écran d'intro pour ne pas couper le lien du haut */
+        #intro-screen {
+            padding-top: 30px;
+        }
+
+        /* --- STYLES EXISTANTS --- */
         .lang-select-container { margin-bottom: 15px; position: relative; }
         .lang-select {
             width: 100%; padding: 8px; background-color: rgba(0, 0, 0, 0.8); color: #ffd700;
@@ -33,6 +66,10 @@
     </style>
 </head>
 <body>
+
+    <div id="affiliation-banner">
+        🤝 Projet affilié à XD Interactive — En collaboration avec Heartopia
+    </div>
 
     <div id="quiz-container">
         <div style="font-size: 40px; margin-bottom: 10px;">🎓</div>
