@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maptopia - Accueil</title>
     
-    <meta property="og:title" content="Maptopia - Carte Interactive Heartopia">
+    <meta property="og:title" content="Maptopia affiliée à XD Interactive Entertainment Co">
     <meta property="og:description" content="Découvrez toutes les ressources, PNJ et secrets d'Heartopia sur une carte interactive multilingue.">
     <meta property="og:image" content="https://maptopia-asdrick.com/maptopia.jpg">
     <meta property="og:url" content="https://maptopia-asdrick.com/">
@@ -32,6 +32,13 @@
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             overflow: hidden; perspective: 1000px;
         }
+
+        /* --- SYSTÈME AMBIANCE DYNAMIQUE (HEURE) --- */
+        :root { --time-filter: rgba(0, 0, 0, 0); }
+        body.morning { --time-filter: rgba(255, 180, 100, 0.2); } /* Aube orangée */
+        body.afternoon { --time-filter: rgba(255, 255, 255, 0.05); } /* Clair */
+        body.evening { --time-filter: rgba(100, 50, 150, 0.3); } /* Crépuscule violet/bleu */
+        body.night { --time-filter: rgba(0, 10, 50, 0.6); } /* Nuit profonde */
 
         /* --- ECRAN DE VEROUILLAGE --- */
         #lock-screen {
@@ -84,6 +91,14 @@
         #video-wrapper video { width: 100%; height: 100%; object-fit: cover; }
         #video-wrapper.zoomed { transform: scale(20) rotate(180deg); }
 
+        /* Filtre temporel superposé */
+        .time-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--time-filter);
+            z-index: 2; pointer-events: none;
+            transition: background 3s ease-in-out;
+        }
+
         /* --- PARTICULES --- */
         .particles-container { position: absolute; width: 100%; height: 100%; z-index: 6; pointer-events: none; }
         .particle { position: absolute; background: rgba(255,255,255,0.6); border-radius: 50%; width: 4px; height: 4px; animation: float 10s infinite linear; }
@@ -122,17 +137,16 @@
             transition: opacity 0.3s ease, transform 0.1s ease-out; padding: 0 20px;
         }
 
-        /* --- STYLE COLLABORATION AMÉLIORÉ --- */
+        /* MENTION D'AFFILIATION */
         .collab-mention {
             font-family: 'Cinzel Decorative', serif;
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: #ffcc00;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 5px; /* Réduit pour l'effet de suite avec le titre */
-            text-shadow: 0 0 10px rgba(255, 204, 0, 0.8), 0 0 20px rgba(0, 0, 0, 1);
+            letter-spacing: 3px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 1);
             font-weight: bold;
-            display: inline-block;
         }
 
         .hero-title {
@@ -248,7 +262,7 @@
             .footer-signature { font-size: 0.8rem; }
             .footer-signature span { font-size: 1.2rem; }
             .action-btn { padding: 8px 15px; font-size: 0.8rem; }
-            .collab-mention { font-size: 1rem; letter-spacing: 2px; }
+            .collab-mention { font-size: 0.8rem; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -262,9 +276,9 @@
     <div id="legal-modal">
         <div class="modal-content">
             <h2>À Propos</h2>
-            <p><strong>Maptopia</strong> est un projet communautaire non-officiel développé avec passion pour les joueurs d'Heartopia.</p>
+            <p><strong>Maptopia</strong> est affiliée à <strong>XD Interactive Entertainment Co</strong> et développée pour les joueurs d'Heartopia.</p>
             <p>Développé par <strong>Asdrick</strong>.<br>
-            Assets graphiques et sonores © Heartopia / Leurs propriétaires respectifs.</p>
+            Assets graphiques et sonores © Heartopia / XD Interactive.</p>
             <button class="close-btn" onclick="document.getElementById('legal-modal').style.display='none'">Fermer</button>
         </div>
     </div>
@@ -272,6 +286,7 @@
     <div id="container">
         <div id="video-wrapper">
             <video id="bgVideo" src="op.mp4" autoplay muted playsinline loop></video>
+            <div class="time-overlay"></div>
         </div>
         
         <div class="particles-container">
@@ -287,7 +302,6 @@
 
         <header id="main-header">
             <div class="collab-mention">Maptopia en collaboration avec</div>
-            
             <h1 class="hero-title">HEARTOPIA</h1>
             <p class="welcome-subtitle">
                 Ne regardez pas seulement la carte. Vivez le <span class="gold-text">voyage</span>.
@@ -319,7 +333,7 @@
 
         <div class="footer-container">
             <div class="footer-signature">
-                Crée par <span>ASDRICK</span>
+                Maptopia affiliée à <span>XD Interactive</span>
             </div>
             <a class="legal-link" onclick="document.getElementById('legal-modal').style.display='flex'">Mentions Légales & Crédits</a>
         </div>
@@ -330,6 +344,7 @@
     <audio id="bg-music" src="musique.mp3" loop preload="auto"></audio>
 
     <script>
+        // --- GESTION DES LANGUES ---
         const translations = {
             'fr': "Cliquez pour déverrouiller le monde", 'en': "Click to unlock the world",
             'es': "Haz clic para desbloquear le monde", 'de': "Klicken, um die Welt freizuschalten",
@@ -345,6 +360,20 @@
             textElement.innerText = translations[langCode] || translations['en'];
         }
 
+        // --- GESTION DU THÈME DYNAMIQUE (HEURE) ---
+        function updateThemeByTime() {
+            const hour = new Date().getHours();
+            const body = document.body;
+            body.classList.remove('morning', 'afternoon', 'evening', 'night');
+
+            if (hour >= 6 && hour < 12) body.classList.add('morning');
+            else if (hour >= 12 && hour < 18) body.classList.add('afternoon');
+            else if (hour >= 18 && hour < 22) body.classList.add('evening');
+            else body.classList.add('night');
+        }
+        updateThemeByTime();
+
+        // --- GESTION AUDIO ET INTERACTION ---
         const lockScreen = document.getElementById('lock-screen');
         const bgVideo = document.getElementById('bgVideo');
         const bgMusic = document.getElementById('bg-music');
